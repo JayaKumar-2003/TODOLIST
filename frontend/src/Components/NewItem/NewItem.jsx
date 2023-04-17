@@ -8,7 +8,7 @@ const NewItem = (props) => {
   const {addItem,editState,editItem} = props;
   const [title,Settitle] = useState('');
   const [priority,Setpriority] = useState('');
-  const isEdit = Boolean(editState.id);
+  const isEdit = Boolean(editState._id);
   console.log(priority);
   const handleClear = () =>{
     Settitle('');
@@ -25,7 +25,7 @@ const NewItem = (props) => {
          
         }
         if(isEdit) {
-          obj.id = editState.id
+          obj._id = editState._id
           editItem(obj)
         }else {
           addItem(obj);
@@ -34,7 +34,12 @@ const NewItem = (props) => {
         Settitle('');
         Setpriority('');
   }
-
+  useEffect(()=>{
+      if(editState._id) {
+        Settitle(editState.title);
+        Setpriority(editState.priority);
+      }
+  },[editState])
   return (
     <div className='new-item-card' >    
           <span className='checkbox pointer'></span>

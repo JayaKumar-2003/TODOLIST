@@ -39,7 +39,9 @@ TaskRoutes.delete('/delete/:id',
 expressAsyncHandler(async(req,res)=>{
     try{
         const todo = await Todo.findById(req.params.id)
+        console.log(req.params.id)
         if(todo) {
+            console.log('entered')
             await Todo.findByIdAndDelete(req.params.id);
             res.send('Deleted')
         }
@@ -47,12 +49,13 @@ expressAsyncHandler(async(req,res)=>{
         console.log('err')
     }
 }))
-TaskRoutes.put('/update/:id',
+TaskRoutes.patch('/update/:id',
 expressAsyncHandler(async(req,res)=>{
     try{
         const todo = await Todo.findById(req.params.id);
+        console.log(todo)
         if(todo) {
-            await Todo.findByIdAndUpdate(req.params.id)
+            await Todo.findByIdAndUpdate(req.params.id,req.body)
         }
     }catch(err) {
         console.log('errpr')

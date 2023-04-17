@@ -3,8 +3,9 @@ import React, { useState } from 'react';
 
 
 const TodoListItem = (props) => {
-    const {item,onDelete,index,onEdit} = props;
-    const {title,priority,id} = item;
+    const {item,
+    onDelete,index,onEdit} = props;
+    const {title,priority,_id} = item;
     const [check,Setcheck]= useState(false);
   
   return (
@@ -16,7 +17,7 @@ const TodoListItem = (props) => {
             </div>
             <div className='button'>
             <span className="material-symbols-outlined pointer" onClick={()=>{onEdit(item)}}>edit</span>
-            <span className="material-symbols-outlined pointer"onClick={()=>onDelete(id)}>delete</span>
+            <span className="material-symbols-outlined pointer"onClick={()=>onDelete(_id)}>delete</span>
             </div>
     </div>
     

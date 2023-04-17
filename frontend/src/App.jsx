@@ -26,13 +26,16 @@ function App() {
   const [editState,SeteditState] = useState({});
   console.log(DEFAULT_LIST);
   const deleteItem = (id) =>{
-     const filteredList= list.filter((item)=> item.id!==id)
-     Setlist([...filteredList])
+    console.log(id)
+    fetch('http://localhost:3000/api/task/delete/'+id,{
+      method:"DELETE",
+    })
+    toast.success('deleted')
   }
   const addItem = (item) =>{
-    item.id = nanoid();
+    //item.id = nanoid();
       Setlist((prev)=>[item,...prev])
-      fetch('http://localhost:3000/api/v1/list',{
+      fetch('http://localhost:3000/api/task/create',{
         method:"POST",
         headers:{
             'Accept':'application/json,text/plain, */*',
@@ -41,26 +44,28 @@ function App() {
         body:JSON.stringify(item)
       }).then((res)=>res.json().then((data)=>{Setlist((prev)=>[item,...prev])}))
   }
+
   const triggerEdit = (item) =>{
     SeteditState(item);
   }
   const editItem = (updatedItem) =>{
-    const updatedList = list.map((item)=> {
-      if(item.id=== updatedItem.id) {
-        return updatedItem;
-      }
-      else {
-        return item
-      }
-    })
-    Setlist([...updatedList]);
+    fetch('http://localhost:3000/api/task/update/'+updatedItem._id,{
+        method:"PATCH",
+        headers:{
+            'Accept':'application/json,text/plain, */*',
+            'Content-type':'application/json',
+        },
+        body:JSON.stringify(updatedItem)
+      }).then((res)=>toast.success('Sended'))
+      console.log(updatedItem)
+      console.log(editState);
   }
   useEffect(()=>{
-      fetch('http://localhost:3000/').then((res)=>{
+      fetch('http://localhost:3000/api/task').then((res)=>{
         res.json().then((data)=>Setlist(data))
       }).catch(()=>{toast.error('Network error')})
   },[])
-  console.log(editState);
+ 
   return(
     <div className='app'>
         <h1 className='title'>ToDo List</h1>
