@@ -64,7 +64,7 @@ function App() {
       fetch('http://localhost:3000/api/task').then((res)=>{
         res.json().then((data)=>Setlist(data))
       }).catch(()=>{toast.error('Network error')})
-  },[])
+  })
  
   return(
     <div className='app'>
